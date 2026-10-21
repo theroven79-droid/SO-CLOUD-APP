@@ -1,5 +1,7 @@
 # SO Cloud App — Monitor de Sistemas Operacionais
 
+![Node.js](https://img.shields.io/badge/Node.js-Express-339933?logo=nodedotjs&logoColor=white) ![API](https://img.shields.io/badge/Interface-HTML-555)
+
 Aplicação Node.js com Express que apresenta informações do sistema operacional em uma página HTML. A implementação está no arquivo [cloud-so-app.js](cloud-so-app.js).
 
 Os dados são consultados quando a página é acessada. Para obter uma nova leitura, recarregue a página. As informações pertencem à máquina que executa o servidor Node.js.
@@ -60,3 +62,45 @@ A resposta deve conter o título do monitor e os campos da tabela. Se tiver defi
 - O pacote CORS está declarado como dependência, mas não é utilizado em `cloud-so-app.js`.
 - A implementação contém uma única rota, `GET /`, que retorna HTML.
 - O `package.json` não define uma etapa de compilação nem um script de testes.
+
+---
+
+## Arquitetura simplificada
+
+```mermaid
+flowchart LR
+    A["Navegador"] -->|"GET /"| B["Servidor Express"]
+    B --> C["Módulo nativo os"]
+    C --> D["Sistema onde Node.js executa"]
+    B --> E["HTML com métricas"]
+    E --> A
+```
+
+## Referência rápida
+
+| Propriedade | Valor confirmado no código |
+|---|---|
+| Entrada | [`cloud-so-app.js`](cloud-so-app.js) |
+| Framework | Express `^5.2.1` em [package.json](package.json) |
+| Outras dependências declaradas | CORS `^2.8.6`, não utilizado no arquivo de entrada |
+| Endpoints | `GET /` |
+| Porta | `process.env.PORT || 3000` |
+| Atualização | Mediante nova requisição / recarregamento |
+| Banco de dados | Não implementado |
+| Métricas em tempo real | Não implementadas (consulta por acesso) |
+
+## Publicar como serviço Node.js
+
+Em uma plataforma de hospedagem Node.js, como [Render](https://render.com/docs/deploy-node-express-app), configure a pasta raiz deste repositório com:
+
+| Campo | Valor |
+|---|---|
+| Instalação | `npm ci` |
+| Inicialização | `node cloud-so-app.js` |
+| Porta | Informada pelo ambiente via `PORT` (padrão local: 3000) |
+
+A tabela descreve uma **configuração possível**, não comprova que o projeto está publicado ou que um deploy foi testado. A página exibe características **do servidor**, não do dispositivo do visitante.
+
+## Observações de engenharia
+
+O repositório contém a pasta `node_modules` versionada. Para manutenção de projetos Node.js, a prática recomendada é instalar as dependências a partir do manifesto e manter essa pasta fora do versionamento; **nenhuma alteração no histórico ou código foi feita por esta documentação**. O projeto não possui autenticação, armazenamento ou testes automatizados definidos.
