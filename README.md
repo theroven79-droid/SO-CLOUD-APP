@@ -1,136 +1,82 @@
-# SO Cloud App — Monitor de Sistemas Operacionais
+# ☁️ SO Cloud App — Monitor de Sistemas Operacionais
 
-![Node.js](https://img.shields.io/badge/Node.js-Express-339933?logo=nodedotjs&logoColor=white) ![API](https://img.shields.io/badge/Interface-HTML-555)
+Aplicação web didática em **Node.js com Express** que exibe informações básicas da máquina que executa o servidor. O objetivo é demonstrar como obter dados do sistema operacional com o módulo nativo `os` do Node.js.
 
+[![Node.js](https://img.shields.io/badge/Runtime-Node.js-339933?logo=nodedotjs&logoColor=white)](https://nodejs.org/) [![Express](https://img.shields.io/badge/Framework-Express-000000?logo=express)](https://expressjs.com/)
 
-## 🚀 Operação Cloud · Trilha prática
+## 📌 Como funciona
 
-> **Missão:** entender como uma requisição web percorre o Express e consulta o sistema operacional pelo Node.js. Este projeto é uma aplicação pequena com **uma única rota** e leitura de métricas por acesso.
+Uma requisição `GET /` aciona a função do servidor, consulta o módulo `os` e retorna uma página HTML com os valores atuais. **A página não se atualiza continuamente**; recarregue-a para fazer uma nova consulta.
 
-| Nível | Objetivo | Como comprovar | XP simbólico |
-|---|---|---|--:|
-| 01 · Boot | Inicializar o servidor | `node cloud-so-app.js` | 20 |
-| 02 · HTTP | Consultar a rota `/` | `curl http://localhost:3000/` | 20 |
-| 03 · Observabilidade | Localizar os campos exibidos | [`cloud-so-app.js`](cloud-so-app.js) | 30 |
-| 04 · Cloud | Entender o uso da variável `PORT` | [Código-fonte](cloud-so-app.js) · [Deploy](#publicar-como-serviço-nodejs) | 30 |
+```mermaid
+flowchart LR
+    A[Navegador] -->|GET /| B[Express]
+    B --> C[Módulo os]
+    C --> D[Host do servidor]
+    B -->|HTML| A
+```
 
-**Checklist de validação manual**
+## ✨ Informações apresentadas
 
-- [ ] O processo Node.js inicia sem erros no seu ambiente.
-- [ ] A rota `GET /` devolve HTML.
-- [ ] O HTML contém hostname, plataforma, arquitetura, memória, CPUs e uptime.
-- [ ] Consegui explicar por que a página remota mede o **servidor** e não meu computador.
+| Campo | API utilizada |
+|---|---|
+| Hostname | `os.hostname()` |
+| Plataforma | `os.platform()` |
+| Arquitetura | `os.arch()` |
+| Memória total | `os.totalmem()` |
+| Memória livre | `os.freemem()` |
+| Quantidade de CPUs | `os.cpus().length` |
+| Tempo de atividade | `os.uptime()` |
 
-<details>
-<summary><strong>🏆 Missão bônus de melhoria</strong></summary>
+A memória é exibida com o rótulo MB após a divisão por `1024²`; o tempo de atividade é arredondado em minutos.
 
-**Desafio proposto (não implementado):** criar uma rota `/api/health` que responda JSON, mantendo `GET /` como está. Essa rota **não existe na implementação atual**. Depois, documente no README o contrato real que você implementar.
+## 📂 Arquivos do projeto
 
-</details>
+| Arquivo | Finalidade |
+|---|---|
+| [cloud-so-app.js](cloud-so-app.js) | Servidor Express e geração da página HTML |
+| [package.json](package.json) | Dependências `express` (`^5.2.1`) e `cors` (`^2.8.6`) |
+| [package-lock.json](package-lock.json) | Registro de versões resolvidas pelo npm |
 
-**🧠 Fonte de verdade:** [`cloud-so-app.js`](cloud-so-app.js) e [`package.json`](package.json). Pontos e conquistas são uma convenção de estudo, não um recurso de software.
+A dependência `cors` está declarada, porém não é utilizada em `cloud-so-app.js`. O repositório também contém `node_modules` versionado, o que não é necessário para executar `npm ci`.
 
----
+## ⚙️ Instalação e execução
 
-Aplicação Node.js com Express que apresenta informações do sistema operacional em uma página HTML. A implementação está no arquivo [cloud-so-app.js](cloud-so-app.js).
-
-Os dados são consultados quando a página é acessada. Para obter uma nova leitura, recarregue a página. As informações pertencem à máquina que executa o servidor Node.js.
-
-## Conteúdo do repositório
-
-| Arquivo | Conteúdo |
-| --- | --- |
-| [cloud-so-app.js](cloud-so-app.js) | Servidor Express, rota da página e leitura das informações do sistema. |
-| [package.json](package.json) | Dependências declaradas: Express e CORS. |
-| [package-lock.json](package-lock.json) | Versões das dependências registradas pelo npm. |
-
-## Instalação e execução
-
-Com Node.js e npm disponíveis, execute na raiz do repositório:
+Com Node.js e npm instalados:
 
 ```bash
+git clone https://github.com/theroven79-droid/SO-CLOUD-APP.git
+cd SO-CLOUD-APP
 npm ci
 node cloud-so-app.js
 ```
 
-O programa imprime `Servidor rodando` ao iniciar e usa a porta **3000** por padrão. Para definir outra porta em um terminal Bash:
+Abra **http://localhost:3000**. É possível configurar outra porta com `PORT`; exemplo em Bash:
 
 ```bash
 PORT=3002 node cloud-so-app.js
 ```
 
-O [package.json](package.json) não define scripts de execução; por isso, o comando de inicialização é `node cloud-so-app.js`.
+O `package.json` não define scripts `start`, `dev` ou `test`, portanto não utilize `npm start` como comando padrão deste projeto.
 
-## Informações da página
+## 🌐 Endpoint disponível
 
-A rota `GET /` retorna uma página com o título **Monitor de Sistemas Operacionais** e os seguintes campos:
-
-| Campo | Informação exibida |
-| --- | --- |
-| Hostname | Nome da máquina, obtido por `os.hostname()`. |
-| Plataforma | Plataforma do sistema, obtida por `os.platform()`. |
-| Arquitetura | Arquitetura do processo, obtida por `os.arch()`. |
-| Memória total | Valor de `os.totalmem()` dividido por 1024², arredondado e exibido com o rótulo MB. |
-| Memória livre | Valor de `os.freemem()` dividido por 1024², arredondado e exibido com o rótulo MB. |
-| CPUs | Quantidade de entradas retornadas por `os.cpus()`. |
-| Uptime | Tempo de atividade do sistema convertido para minutos e arredondado. |
-
-As consultas ao sistema usam o módulo nativo `os` do Node.js. A porta é lida de `process.env.PORT`, com o valor 3000 como padrão.
-
-## Conferir a resposta
-
-Com o processo em execução, faça uma requisição local em outro terminal:
+| Método | Rota | Conteúdo |
+|---|---|---|
+| `GET` | `/` | Página HTML com indicadores do host |
 
 ```bash
-curl --fail --silent http://127.0.0.1:3000/
+curl http://localhost:3000/
 ```
 
-A resposta deve conter o título do monitor e os campos da tabela. Se tiver definido outra porta, ajuste o comando.
+## ☁️ Hospedagem
 
-## Observações
+Em um serviço Node.js, o comando de instalação pode ser `npm ci` e o de inicialização deve apontar para `node cloud-so-app.js`. O servidor aceita a variável de ambiente `PORT`. Essas são instruções de configuração possíveis, **não uma afirmação de deploy realizado**.
 
-- O pacote CORS está declarado como dependência, mas não é utilizado em `cloud-so-app.js`.
-- A implementação contém uma única rota, `GET /`, que retorna HTML.
-- O `package.json` não define uma etapa de compilação nem um script de testes.
+## 🔎 Limitações
 
----
+- Não há API JSON, banco de dados, autenticação ou atualização automática em tempo real.
+- Os indicadores pertencem **ao servidor**, não ao dispositivo do visitante.
+- Não existe suíte de testes automatizados definida no manifesto.
 
-## Arquitetura simplificada
-
-```mermaid
-flowchart LR
-    A["Navegador"] -->|"GET /"| B["Servidor Express"]
-    B --> C["Módulo nativo os"]
-    C --> D["Sistema onde Node.js executa"]
-    B --> E["HTML com métricas"]
-    E --> A
-```
-
-## Referência rápida
-
-| Propriedade | Valor confirmado no código |
-|---|---|
-| Entrada | [`cloud-so-app.js`](cloud-so-app.js) |
-| Framework | Express `^5.2.1` em [package.json](package.json) |
-| Outras dependências declaradas | CORS `^2.8.6`, não utilizado no arquivo de entrada |
-| Endpoints | `GET /` |
-| Porta | `process.env.PORT || 3000` |
-| Atualização | Mediante nova requisição / recarregamento |
-| Banco de dados | Não implementado |
-| Métricas em tempo real | Não implementadas (consulta por acesso) |
-
-## Publicar como serviço Node.js
-
-Em uma plataforma de hospedagem Node.js, como [Render](https://render.com/docs/deploy-node-express-app), configure a pasta raiz deste repositório com:
-
-| Campo | Valor |
-|---|---|
-| Instalação | `npm ci` |
-| Inicialização | `node cloud-so-app.js` |
-| Porta | Informada pelo ambiente via `PORT` (padrão local: 3000) |
-
-A tabela descreve uma **configuração possível**, não comprova que o projeto está publicado ou que um deploy foi testado. A página exibe características **do servidor**, não do dispositivo do visitante.
-
-## Observações de engenharia
-
-O repositório contém a pasta `node_modules` versionada. Para manutenção de projetos Node.js, a prática recomendada é instalar as dependências a partir do manifesto e manter essa pasta fora do versionamento; **nenhuma alteração no histórico ou código foi feita por esta documentação**. O projeto não possui autenticação, armazenamento ou testes automatizados definidos.
+**Fonte técnica:** [código do servidor](cloud-so-app.js) · [dependências](package.json) · [API `os` do Node.js](https://nodejs.org/api/os.html).
