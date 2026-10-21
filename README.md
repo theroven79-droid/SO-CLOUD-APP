@@ -1,82 +1,76 @@
-# ☁️ SO Cloud App — Monitor de Sistemas Operacionais
+# ☁️ SO Cloud App — Monitor de sistemas operacionais
 
-Aplicação web didática em **Node.js com Express** que exibe informações básicas da máquina que executa o servidor. O objetivo é demonstrar como obter dados do sistema operacional com o módulo nativo `os` do Node.js.
+Aplicação web didática construída com **Node.js e Express** para apresentar informações da máquina em que o servidor está em execução. O objetivo é demonstrar o uso do módulo nativo `os` do Node.js na geração de uma página HTML.
 
-[![Node.js](https://img.shields.io/badge/Runtime-Node.js-339933?logo=nodedotjs&logoColor=white)](https://nodejs.org/) [![Express](https://img.shields.io/badge/Framework-Express-000000?logo=express)](https://expressjs.com/)
+## 📌 Funcionamento
 
-## 📌 Como funciona
+Quando alguém acessa a rota `GET /`, o servidor consulta as informações disponíveis no sistema e retorna uma página com os resultados. **Os valores apresentados são do servidor, e não do dispositivo de quem acessa o site.**
 
-Uma requisição `GET /` aciona a função do servidor, consulta o módulo `os` e retorna uma página HTML com os valores atuais. **A página não se atualiza continuamente**; recarregue-a para fazer uma nova consulta.
-
-```mermaid
-flowchart LR
-    A[Navegador] -->|GET /| B[Express]
-    B --> C[Módulo os]
-    C --> D[Host do servidor]
-    B -->|HTML| A
-```
+A página não realiza atualizações automáticas: para obter uma nova leitura, é necessário recarregá-la.
 
 ## ✨ Informações apresentadas
 
-| Campo | API utilizada |
+| Informação | Origem no código |
 |---|---|
-| Hostname | `os.hostname()` |
+| Nome da máquina | `os.hostname()` |
 | Plataforma | `os.platform()` |
 | Arquitetura | `os.arch()` |
 | Memória total | `os.totalmem()` |
 | Memória livre | `os.freemem()` |
-| Quantidade de CPUs | `os.cpus().length` |
+| Quantidade de CPUs lógicas | `os.cpus().length` |
 | Tempo de atividade | `os.uptime()` |
 
-A memória é exibida com o rótulo MB após a divisão por `1024²`; o tempo de atividade é arredondado em minutos.
+Os valores de memória são divididos por `1024²` e arredondados; embora a página utilize a indicação **MB**, esse cálculo corresponde a unidades de **MiB**. O tempo de atividade é convertido para minutos.
 
-## 📂 Arquivos do projeto
+## 📂 Arquivos
 
 | Arquivo | Finalidade |
 |---|---|
-| [cloud-so-app.js](cloud-so-app.js) | Servidor Express e geração da página HTML |
-| [package.json](package.json) | Dependências `express` (`^5.2.1`) e `cors` (`^2.8.6`) |
-| [package-lock.json](package-lock.json) | Registro de versões resolvidas pelo npm |
+| [`cloud-so-app.js`](cloud-so-app.js) | Implementação do servidor Express e geração do HTML. |
+| [`package.json`](package.json) | Dependências declaradas: Express e CORS. |
+| [`package-lock.json`](package-lock.json) | Versões de dependências registradas pelo npm. |
 
-A dependência `cors` está declarada, porém não é utilizada em `cloud-so-app.js`. O repositório também contém `node_modules` versionado, o que não é necessário para executar `npm ci`.
+A dependência `cors` consta em `package.json`, mas não é utilizada no arquivo principal.
 
 ## ⚙️ Instalação e execução
 
-Com Node.js e npm instalados:
+**Pré-requisitos:** Node.js e npm instalados. Na raiz do repositório:
 
 ```bash
-git clone https://github.com/theroven79-droid/SO-CLOUD-APP.git
-cd SO-CLOUD-APP
 npm ci
 node cloud-so-app.js
 ```
 
-Abra **http://localhost:3000**. É possível configurar outra porta com `PORT`; exemplo em Bash:
+Acesse **http://localhost:3000** no navegador.
+
+Para utilizar outra porta em Bash:
 
 ```bash
 PORT=3002 node cloud-so-app.js
 ```
 
-O `package.json` não define scripts `start`, `dev` ou `test`, portanto não utilize `npm start` como comando padrão deste projeto.
+O arquivo `package.json` não define um script `start`, portanto `npm start` não é o comando previsto para este projeto.
 
-## 🌐 Endpoint disponível
+## 🌐 Rota disponível
 
-| Método | Rota | Conteúdo |
+| Método | Caminho | Resposta |
 |---|---|---|
-| `GET` | `/` | Página HTML com indicadores do host |
+| `GET` | `/` | Página HTML com as informações do sistema. |
+
+Para consultar a resposta via terminal:
 
 ```bash
 curl http://localhost:3000/
 ```
 
-## ☁️ Hospedagem
+## ☁️ Execução em serviços de nuvem
 
-Em um serviço Node.js, o comando de instalação pode ser `npm ci` e o de inicialização deve apontar para `node cloud-so-app.js`. O servidor aceita a variável de ambiente `PORT`. Essas são instruções de configuração possíveis, **não uma afirmação de deploy realizado**.
+É possível configurar um serviço Node.js com `npm ci` como comando de instalação e `node cloud-so-app.js` como comando de inicialização. A aplicação lê a variável de ambiente `PORT` ou utiliza a porta 3000 por padrão.
 
-## 🔎 Limitações
+Essas são orientações de configuração; **não comprovam que o projeto esteja publicado**.
 
-- Não há API JSON, banco de dados, autenticação ou atualização automática em tempo real.
-- Os indicadores pertencem **ao servidor**, não ao dispositivo do visitante.
-- Não existe suíte de testes automatizados definida no manifesto.
+## ⚠️ Limitações
 
-**Fonte técnica:** [código do servidor](cloud-so-app.js) · [dependências](package.json) · [API `os` do Node.js](https://nodejs.org/api/os.html).
+Não há API JSON, autenticação, banco de dados, testes automatizados declarados nem atualização contínua no navegador.
+
+**Referências:** [código do servidor](cloud-so-app.js) · [Node.js — módulo `os`](https://nodejs.org/api/os.html).
