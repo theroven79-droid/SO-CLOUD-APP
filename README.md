@@ -2,6 +2,36 @@
 
 ![Node.js](https://img.shields.io/badge/Node.js-Express-339933?logo=nodedotjs&logoColor=white) ![API](https://img.shields.io/badge/Interface-HTML-555)
 
+
+## 🚀 Operação Cloud · Trilha prática
+
+> **Missão:** entender como uma requisição web percorre o Express e consulta o sistema operacional pelo Node.js. Este projeto é uma aplicação pequena com **uma única rota** e leitura de métricas por acesso.
+
+| Nível | Objetivo | Como comprovar | XP simbólico |
+|---|---|---|--:|
+| 01 · Boot | Inicializar o servidor | `node cloud-so-app.js` | 20 |
+| 02 · HTTP | Consultar a rota `/` | `curl http://localhost:3000/` | 20 |
+| 03 · Observabilidade | Localizar os campos exibidos | [`cloud-so-app.js`](cloud-so-app.js) | 30 |
+| 04 · Cloud | Entender o uso da variável `PORT` | [Código-fonte](cloud-so-app.js) · [Deploy](#publicar-como-serviço-nodejs) | 30 |
+
+**Checklist de validação manual**
+
+- [ ] O processo Node.js inicia sem erros no seu ambiente.
+- [ ] A rota `GET /` devolve HTML.
+- [ ] O HTML contém hostname, plataforma, arquitetura, memória, CPUs e uptime.
+- [ ] Consegui explicar por que a página remota mede o **servidor** e não meu computador.
+
+<details>
+<summary><strong>🏆 Missão bônus de melhoria</strong></summary>
+
+**Desafio proposto (não implementado):** criar uma rota `/api/health` que responda JSON, mantendo `GET /` como está. Essa rota **não existe na implementação atual**. Depois, documente no README o contrato real que você implementar.
+
+</details>
+
+**🧠 Fonte de verdade:** [`cloud-so-app.js`](cloud-so-app.js) e [`package.json`](package.json). Pontos e conquistas são uma convenção de estudo, não um recurso de software.
+
+---
+
 Aplicação Node.js com Express que apresenta informações do sistema operacional em uma página HTML. A implementação está no arquivo [cloud-so-app.js](cloud-so-app.js).
 
 Os dados são consultados quando a página é acessada. Para obter uma nova leitura, recarregue a página. As informações pertencem à máquina que executa o servidor Node.js.
