@@ -38,8 +38,8 @@ A rota `GET /` retorna uma página com o título **Monitor de Sistemas Operacion
 | Hostname | Nome da máquina, obtido por `os.hostname()`. |
 | Plataforma | Plataforma do sistema, obtida por `os.platform()`. |
 | Arquitetura | Arquitetura do processo, obtida por `os.arch()`. |
-| Memória total | Valor de `os.totalmem()` dividido por 1024² e arredondado, exibido com o rótulo MB. |
-| Memória livre | Valor de `os.freemem()` dividido por 1024² e arredondado, também exibido com o rótulo MB. |
+| Memória total | Valor de `os.totalmem()` dividido por 1024², arredondado e exibido com o rótulo MB. |
+| Memória livre | Valor de `os.freemem()` dividido por 1024², arredondado e exibido com o rótulo MB. |
 | CPUs | Quantidade de entradas retornadas por `os.cpus()`. |
 | Uptime | Tempo de atividade do sistema convertido para minutos e arredondado. |
 
@@ -59,4 +59,4 @@ A resposta deve conter o título do monitor e os campos da tabela. Se tiver defi
 
 - O pacote CORS está declarado como dependência, mas não é utilizado em `cloud-so-app.js`.
 - A implementação contém uma única rota, `GET /`, que retorna HTML.
-- Não há uma etapa de compilação ou um script de testes definido no `package.json`.
+- O `package.json` não define uma etapa de compilação nem um script de testes.
