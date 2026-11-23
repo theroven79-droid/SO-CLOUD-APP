@@ -1,6 +1,6 @@
 # ☁️ SO Cloud App
 
-O **SO Cloud App** é uma aplicação simples para visualizar informações do sistema operacional por meio de uma página web. Desenvolvido como exercício de **Node.js e Express**, o projeto conecta o funcionamento de um servidor HTTP à consulta de recursos da máquina em que ele está executando.
+O **SO Cloud App** é uma aplicação simples para visualizar informações do sistema operacional por meio de uma página web. Desenvolvido como exercício de **Node.js e Express**, o projeto conecta o funcionamento de um servidor HTTP à consulta de recursos da máquina em que ele está sendo executado.
 
 ## 🖥️ O que aparece na página
 
@@ -10,7 +10,7 @@ Quando a rota principal (`/`) é acessada, o servidor consulta o módulo nativo 
 |---|---|
 | **Hostname** | Nome da máquina que executa a aplicação. |
 | **Plataforma e arquitetura** | Identificação do sistema e da arquitetura utilizada. |
-| **Memória total e livre** | Quantidade de memória disponível e capacidade informada pelo sistema. |
+| **Memória total e livre** | Capacidade total e quantidade de memória livre informadas pelo sistema. |
 | **CPUs** | Número de processadores lógicos identificados. |
 | **Uptime** | Tempo de atividade da máquina, exibido em minutos. |
 
@@ -22,7 +22,7 @@ As informações refletem o **ambiente do servidor** — seja ele local ou hospe
 |---|---|
 | **JavaScript / Node.js** | Execução do servidor e leitura das informações do sistema. |
 | **Express** | Criação da rota HTTP que devolve a página. |
-| **HTML** | Apresentação dos indicadores ao navegador. |
+| **HTML** | Exibição dos indicadores no navegador. |
 
 ## 📂 Arquivos principais
 
